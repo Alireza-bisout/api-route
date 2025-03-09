@@ -1,44 +1,29 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState();
+  const [name, setName] = useState();
 
-  useEffect(() => {
-
-    async function fetchData() {
-      const res = await fetch('/api');
-      const data = await res.json();
-
-      setTodos(data);
-      console.log(data);
-    }
-
-    fetchData();
-  }, []);
 
   const clickHandler = async () => {
-    const res = fetch("/api", {
+    const res = fetch("/api/data", {
       method: "POST",
-      body: JSON.stringify({ todo }),
+      body: JSON.stringify({ name: name }),
       headers: { "Content-Type": "application/json" }
     })
     const data = await (await res).json()
     console.log(data)
   }
-
+  
   return (
     <>
+      <h1>
+        connecting dataBase to next.js project
+      </h1>
       <ul>
-        {
-          todos.map((todo) => (
-            <li key={todo.id}>{todo.todo}</li>
-          ))
-        }
 
-        <input type="text" value={todo} onChange={e => setTodo(e.target.value)} />
+        <input type="text" value={name} onChange={e => setName(e.target.value)} />
 
-        <button onClick={clickHandler}>create todo</button>
+        <button onClick={clickHandler}>POST</button>
       </ul>
     </>
   );
